@@ -13,6 +13,7 @@ const Home = () => {
     const [ selectedFile, setSelectedFile ] = useState(null)
     const [ formError, setFormError ] = useState("")
     const [ isGenerating, setIsGenerating ] = useState(false)
+    const [ planType, setPlanType ] = useState("roadmap") // "roadmap" (default) | "interview"
     const resumeInputRef = useRef()
 
     const navigate = useNavigate()
@@ -38,7 +39,7 @@ const Home = () => {
         e.currentTarget.classList.remove('dropzone--drag-over')
         const file = e.dataTransfer.files[0]
         if (!file) return
-        // Only accept PDF (DOCX shows in UI but backend can't parse it yet)
+        // Only accept PDF
         if (file.type !== 'application/pdf') {
             setFormError("Only PDF files are supported.")
             return
@@ -74,7 +75,7 @@ const Home = () => {
         setIsGenerating(true)
 
         const resumeFile = selectedFile || null
-        const data = await generateReport({ jobDescription, selfDescription, resumeFile })
+        const data = await generateReport({ jobDescription, selfDescription, resumeFile, planType })
         setIsGenerating(false)
         if (data) navigate(`/interview/${data._id}`)
     }
@@ -82,7 +83,7 @@ const Home = () => {
     if (isGenerating) {
         return (
             <main className='loading-screen'>
-                <h1>Generating Interview Plan...</h1>
+                <h1>{planType === 'roadmap' ? 'Analyzing Skills & Generating Career Roadmap...' : 'Generating Interview Preparation Plan...'}</h1>
             </main>
         )
     }
@@ -104,9 +105,33 @@ const Home = () => {
 
             {/* Page Header */}
             <header className='page-header'>
-                <h1>AI Interview <span className='highlight'>Preparation</span></h1>
-                <p>Analyze role requirements against your profile to generate targeted questions, skill gap analysis, and a structured preparation roadmap.</p>
+                <h1>AI Strategy &amp; <span className='highlight'>{planType === 'roadmap' ? 'Career Roadmap' : 'Interview Plan'}</span></h1>
+                <p>
+                    {planType === 'roadmap'
+                        ? 'Perform a detailed skill gap audit, competency matrix analysis, and multi-week transition roadmap with recommended portfolio projects.'
+                        : 'Analyze role requirements against your profile to generate targeted questions, model responses, and a 7-day sprint plan.'}
+                </p>
             </header>
+
+            {/* Plan Mode Selector */}
+            <div className='mode-selector'>
+                <button
+                    type='button'
+                    className={`mode-btn ${planType === 'roadmap' ? 'mode-btn--active' : ''}`}
+                    onClick={() => setPlanType('roadmap')}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/><polyline points="13 21 11 13 3 11"/></svg>
+                    Skill Audit &amp; Career Roadmap
+                </button>
+                <button
+                    type='button'
+                    className={`mode-btn ${planType === 'interview' ? 'mode-btn--active' : ''}`}
+                    onClick={() => setPlanType('interview')}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    Interview Preparation
+                </button>
+            </div>
 
             {/* Main Card */}
             <div className='interview-card'>
@@ -209,13 +234,15 @@ const Home = () => {
                 <div className='interview-card__footer'>
                     <div>
                         {formError && <p style={{ color: '#ffb4ab', marginBottom: '0.5rem', fontSize: '0.82rem', fontFamily: 'JetBrains Mono' }}>{formError}</p>}
-                        <span className='footer-info'>Generation time: ~30s</span>
+                        <span className='footer-info'>
+                            {planType === 'roadmap' ? 'Deep Analysis: Skill Matrix & Roadmap' : 'Speed Prep: Targeted Q&A & Sprint'} &bull; ~30s
+                        </span>
                     </div>
                     <button
                         onClick={handleGenerateReport}
                         className='generate-btn'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" /></svg>
-                        Generate Plan
+                        {planType === 'roadmap' ? 'Generate Career Roadmap' : 'Generate Interview Plan'}
                     </button>
                 </div>
             </div>
@@ -223,11 +250,16 @@ const Home = () => {
             {/* Recent Reports List */}
             {(reports?.length > 0) && (
                 <section className='recent-reports'>
-                    <h2>Recent Interview Plans</h2>
+                    <h2>Recent Strategy Plans</h2>
                     <ul className='reports-list'>
                         {reports.map(report => (
                             <li key={report._id} className='report-item' onClick={() => navigate(`/interview/${report._id}`)}>
-                                <h3>{report.title || 'Untitled Analysis'}</h3>
+                                <div className='report-item__top'>
+                                    <h3>{report.title || 'Untitled Analysis'}</h3>
+                                    <span className={`plan-badge ${report.planType === 'roadmap' ? 'badge--roadmap' : 'badge--interview'}`}>
+                                        {report.planType === 'roadmap' ? 'Roadmap' : 'Interview'}
+                                    </span>
+                                </div>
                                 <p className='report-meta'>{new Date(report.createdAt).toLocaleDateString()}</p>
                                 <p className={`match-score ${report.matchScore >= 80 ? 'score--high' : report.matchScore >= 60 ? 'score--mid' : 'score--low'}`}>Match: {report.matchScore}%</p>
                             </li>

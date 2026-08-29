@@ -18,15 +18,15 @@ $on-primary:               #131449;
 $sky-accent:               #89ceff;
 $sky-accent-dim:           rgba(137, 206, 255, 0.12);
 
-$text-primary:             #e2e2e2;
-$text-secondary:           #dae2fd;
-$text-muted:               #918f9a;
+$text-primary:             #f4f4f5;
+$text-secondary:           #d4d4d8;
+$text-muted:               #a1a1aa;
 
 $error-accent:             #ffb4ab;
 $error-dim:                rgba(255, 180, 171, 0.12);
 
 // ── Typography ────────────────────────────────────────────────────────────────
-$font-display:             'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-display:             'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 $font-body:                'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 $font-mono:                'JetBrains Mono', monospace;
 
@@ -41,7 +41,7 @@ $score-low:                #ffb4ab;
     min-height: 100vh;
     background-color: $bg-void;
     background-image: 
-        radial-gradient(circle at 0% 0%, rgba(192, 193, 255, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 0% 0%, rgba(192, 193, 255, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 100% 100%, rgba(137, 206, 255, 0.03) 0%, transparent 50%);
     color: $text-primary;
     font-family: $font-body;
@@ -62,7 +62,7 @@ $score-low:                #ffb4ab;
 
 // ── Left Nav ─────────────────────────────────────────────────────────────────
 .interview-nav {
-    width: 240px;
+    width: 250px;
     flex-shrink: 0;
     background-color: rgba(10, 10, 10, 0.85);
     backdrop-filter: blur(16px);
@@ -97,11 +97,11 @@ $score-low:                #ffb4ab;
         border: 1px solid $border-ghost;
         border-radius: 0.75rem;
         color: $text-secondary;
-        font-size: 0.875rem;
-        font-weight: 500;
-        font-family: $font-body;
+        font-size: 0.88rem;
+        font-weight: 600;
+        font-family: $font-display;
         cursor: pointer;
-        margin-bottom: 0.85rem;
+        margin-bottom: 0.5rem;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
         svg {
@@ -122,12 +122,39 @@ $score-low:                #ffb4ab;
         }
     }
 
+    .analysis-badge-container {
+        padding: 0 0.25rem 0.6rem;
+
+        .analysis-type-tag {
+            display: inline-block;
+            font-family: $font-mono;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 0.35rem;
+
+            &.tag--roadmap {
+                background-color: rgba(137, 206, 255, 0.12);
+                color: $sky-accent;
+                border: 1px solid rgba(137, 206, 255, 0.3);
+            }
+
+            &.tag--interview {
+                background-color: rgba(192, 193, 255, 0.12);
+                color: $electric-indigo;
+                border: 1px solid rgba(192, 193, 255, 0.3);
+            }
+        }
+    }
+
     &__label {
         font-family: $font-mono;
         font-size: 0.7rem;
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         color: $text-muted;
         margin-bottom: 0.35rem;
         padding: 0 0.5rem;
@@ -143,8 +170,9 @@ $score-low:                #ffb4ab;
         border: 1px solid transparent;
         border-radius: 0.75rem;
         color: $text-muted;
-        font-size: 0.875rem;
-        font-family: $font-body;
+        font-size: 0.88rem;
+        font-family: $font-display;
+        font-weight: 500;
         cursor: pointer;
         text-align: left;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -158,7 +186,7 @@ $score-low:                #ffb4ab;
             background-color: $electric-indigo-dim;
             border-color: $border-accent;
             color: $electric-indigo;
-            font-weight: 600;
+            font-weight: 700;
             box-shadow: 0 0 16px rgba(192, 193, 255, 0.12);
         }
     }
@@ -206,22 +234,317 @@ $score-low:                #ffb4ab;
 
     h2 {
         font-family: $font-display;
-        font-size: 1.5rem;
-        font-weight: 700;
-        letter-spacing: -0.01em;
+        font-size: 1.55rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
         color: #ffffff;
     }
 
     &__count {
         font-family: $font-mono;
         font-size: 0.78rem;
-        font-weight: 500;
+        font-weight: 600;
         color: $sky-accent;
         background-color: $sky-accent-dim;
         border: 1px solid rgba(137, 206, 255, 0.25);
-        padding: 0.25rem 0.6rem;
+        padding: 0.25rem 0.65rem;
         border-radius: 0.4rem;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.04em;
+    }
+}
+
+// ── Career Phase Cards (Roadmap Mode) ─────────────────────────────────────────
+.career-phases-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.career-phase-card {
+    background-color: rgba(14, 14, 14, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid $border-ghost;
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        border-color: rgba(137, 206, 255, 0.3);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+
+        .career-phase-card__meta {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.25rem;
+
+            .career-phase-card__badge {
+                font-family: $font-mono;
+                font-size: 0.72rem;
+                font-weight: 700;
+                color: $sky-accent;
+                background-color: $sky-accent-dim;
+                border: 1px solid rgba(137, 206, 255, 0.3);
+                padding: 0.2rem 0.55rem;
+                border-radius: 0.4rem;
+                letter-spacing: 0.05em;
+            }
+
+            .career-phase-card__duration {
+                font-family: $font-mono;
+                font-size: 0.75rem;
+                color: $text-muted;
+            }
+        }
+
+        .career-phase-card__title {
+            font-family: $font-display;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.015em;
+            margin: 0;
+        }
+
+        .career-phase-card__objective {
+            font-family: $font-body;
+            font-size: 0.94rem;
+            color: $text-secondary;
+            line-height: 1.6;
+            margin: 0;
+        }
+    }
+
+    &__topics {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+
+        h4 {
+            font-family: $font-mono;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: $text-muted;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 0;
+        }
+
+        .topics-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+
+            .topic-tag {
+                font-family: $font-mono;
+                font-size: 0.75rem;
+                color: $text-primary;
+                background-color: rgba(22, 22, 22, 0.9);
+                border: 1px solid rgba(255, 255, 255, 0.07);
+                padding: 0.25rem 0.65rem;
+                border-radius: 0.4rem;
+                letter-spacing: 0.01em;
+            }
+        }
+    }
+
+    &__project {
+        background-color: rgba(19, 19, 26, 0.9);
+        border: 1px solid rgba(192, 193, 255, 0.2);
+        border-left: 3px solid $electric-indigo;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+
+        .project-badge {
+            align-self: flex-start;
+            font-family: $font-mono;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: $electric-indigo;
+            background-color: $electric-indigo-dim;
+            padding: 0.15rem 0.5rem;
+            border-radius: 0.35rem;
+            letter-spacing: 0.08em;
+        }
+
+        h4 {
+            font-family: $font-display;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        p {
+            font-family: $font-body;
+            font-size: 0.9rem;
+            color: $text-secondary;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .tech-stack-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.25rem;
+
+            .tech-tag {
+                font-family: $font-mono;
+                font-size: 0.72rem;
+                font-weight: 600;
+                color: $electric-indigo;
+                background-color: rgba(192, 193, 255, 0.08);
+                border: 1px solid rgba(192, 193, 255, 0.2);
+                padding: 0.15rem 0.55rem;
+                border-radius: 0.35rem;
+            }
+        }
+    }
+}
+
+// ── Skill Gap Matrix Cards ────────────────────────────────────────────────────
+.skills-matrix-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.skill-matrix-card {
+    background-color: rgba(14, 14, 14, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid $border-ghost;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: border-color 0.2s;
+
+    &:hover {
+        border-color: rgba(192, 193, 255, 0.25);
+    }
+
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+
+        .skill-matrix-card__name {
+            font-family: $font-display;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: -0.015em;
+        }
+
+        .importance-badge {
+            font-family: $font-mono;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 0.4rem;
+
+            &.importance--critical {
+                background-color: $error-dim;
+                color: $error-accent;
+                border: 1px solid rgba(255, 180, 171, 0.3);
+            }
+
+            &.importance--high {
+                background-color: $electric-indigo-dim;
+                color: $electric-indigo;
+                border: 1px solid $border-accent;
+            }
+
+            &.importance--medium,
+            &.importance--low {
+                background-color: $sky-accent-dim;
+                color: $sky-accent;
+                border: 1px solid rgba(137, 206, 255, 0.3);
+            }
+        }
+    }
+
+    &__levels {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background-color: rgba(10, 10, 10, 0.95);
+        padding: 0.95rem 1.25rem;
+        border-radius: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+
+        @media (max-width: 600px) {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.5rem;
+        }
+
+        .level-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+
+            .level-label {
+                font-family: $font-mono;
+                font-size: 0.7rem;
+                color: $text-muted;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+            }
+
+            .level-value {
+                font-family: $font-display;
+                font-size: 0.95rem;
+                font-weight: 700;
+
+                &.current {
+                    color: $text-muted;
+                }
+
+                &.target {
+                    color: $sky-accent;
+                }
+            }
+        }
+
+        .level-arrow {
+            color: $electric-indigo;
+            font-size: 1.2rem;
+            font-weight: 700;
+
+            @media (max-width: 600px) {
+                display: none;
+            }
+        }
+    }
+
+    &__desc {
+        font-family: $font-body;
+        font-size: 0.9rem;
+        color: $text-secondary;
+        line-height: 1.6;
+        margin: 0;
     }
 }
 
@@ -250,7 +573,7 @@ $score-low:                #ffb4ab;
         display: flex;
         align-items: center;
         gap: 1rem;
-        padding: 1.1rem 1.25rem;
+        padding: 1.15rem 1.35rem;
         cursor: pointer;
         user-select: none;
     }
@@ -269,12 +592,13 @@ $score-low:                #ffb4ab;
 
     &__question {
         flex: 1;
-        font-family: $font-body;
-        font-size: 0.95rem;
-        font-weight: 500;
+        font-family: $font-display;
+        font-size: 0.98rem;
+        font-weight: 600;
         color: $text-primary;
         margin: 0;
         line-height: 1.5;
+        letter-spacing: -0.01em;
     }
 
     &__chevron {
@@ -298,7 +622,7 @@ $score-low:                #ffb4ab;
     }
 
     &__section {
-        padding: 1.25rem 1.5rem;
+        padding: 1.35rem 1.5rem;
 
         &:not(:last-child) {
             border-bottom: 1px solid $border-ghost;
@@ -306,9 +630,9 @@ $score-low:                #ffb4ab;
 
         p {
             font-family: $font-body;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             color: $text-secondary;
-            line-height: 1.65;
+            line-height: 1.7;
             margin: 0.5rem 0 0;
         }
     }
@@ -316,10 +640,10 @@ $score-low:                #ffb4ab;
     &__tag {
         display: inline-block;
         font-family: $font-mono;
-        font-size: 0.7rem;
-        font-weight: 600;
+        font-size: 0.72rem;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.08em;
         padding: 0.18rem 0.55rem;
         border-radius: 0.35rem;
 
@@ -349,7 +673,7 @@ $score-low:                #ffb4ab;
     backdrop-filter: blur(12px);
     border: 1px solid $border-ghost;
     border-radius: 1rem;
-    padding: 1.25rem 1.5rem;
+    padding: 1.35rem 1.6rem;
     transition: border-color 0.2s;
 
     &:hover {
@@ -365,29 +689,31 @@ $score-low:                #ffb4ab;
 
     &__badge {
         font-family: $font-mono;
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         font-weight: 700;
         color: $electric-indigo;
         background-color: $electric-indigo-dim;
         border: 1px solid $border-accent;
-        padding: 0.25rem 0.6rem;
+        padding: 0.25rem 0.65rem;
         border-radius: 0.4rem;
         white-space: nowrap;
+        letter-spacing: 0.04em;
     }
 
     &__focus {
         font-family: $font-display;
-        font-size: 1.05rem;
-        font-weight: 600;
+        font-size: 1.1rem;
+        font-weight: 700;
         color: #ffffff;
         margin: 0;
+        letter-spacing: -0.01em;
     }
 
     &__tasks {
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 0.65rem;
+        gap: 0.7rem;
         padding: 0;
         margin: 0;
 
@@ -396,9 +722,9 @@ $score-low:                #ffb4ab;
             align-items: flex-start;
             gap: 0.75rem;
             font-family: $font-body;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             color: $text-secondary;
-            line-height: 1.55;
+            line-height: 1.6;
         }
     }
 
@@ -409,7 +735,7 @@ $score-low:                #ffb4ab;
         background-color: $electric-indigo;
         box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);
         flex-shrink: 0;
-        margin-top: 0.45rem;
+        margin-top: 0.5rem;
     }
 }
 
@@ -449,9 +775,9 @@ $score-low:                #ffb4ab;
     &__label {
         font-family: $font-mono;
         font-size: 0.75rem;
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         color: $text-muted;
     }
 
@@ -482,10 +808,11 @@ $score-low:                #ffb4ab;
 
     &__value {
         font-family: $font-display;
-        font-size: 1.85rem;
+        font-size: 2rem;
         font-weight: 800;
         line-height: 1;
         color: #ffffff;
+        letter-spacing: -0.03em;
     }
 
     &__pct {
@@ -496,9 +823,9 @@ $score-low:                #ffb4ab;
 
     &__sub {
         font-family: $font-body;
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         color: $text-muted;
-        line-height: 1.45;
+        line-height: 1.5;
         text-align: center;
     }
 }
@@ -512,9 +839,9 @@ $score-low:                #ffb4ab;
     &__label {
         font-family: $font-mono;
         font-size: 0.75rem;
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         color: $text-muted;
     }
 
@@ -560,11 +887,12 @@ $score-low:                #ffb4ab;
     padding: 0.75rem 1.25rem;
     background-color: $electric-indigo;
     color: $on-primary;
-    font-size: 0.85rem;
-    font-weight: 600;
-    font-family: $font-body;
+    font-size: 0.88rem;
+    font-weight: 700;
+    font-family: $font-display;
+    letter-spacing: -0.01em;
     border: none;
-    border-radius: 1rem;
+    border-radius: 0.85rem;
     cursor: pointer;
     box-shadow: 0 0 18px rgba(192, 193, 255, 0.25);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -597,9 +925,9 @@ $score-low:                #ffb4ab;
     font-family: $font-display;
 
     h1 {
-        font-size: 1.25rem;
-        font-weight: 500;
-        letter-spacing: -0.01em;
+        font-size: 1.35rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
         animation: pulse-noir 1.8s ease-in-out infinite;
     }
 }

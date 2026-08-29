@@ -10,7 +10,7 @@ const interviewReportModel = require("../model/interviewreport");
  */
 async function generateInterViewReportController(req, res) {
     try {
-        const { selfDescription, jobDescription } = req.body
+        const { selfDescription, jobDescription, planType = "interview" } = req.body
 
         if (!jobDescription) {
             return res.status(400).json({ message: "Job description is required." })
@@ -29,10 +29,13 @@ async function generateInterViewReportController(req, res) {
             return res.status(400).json({ message: "Please provide a resume (PDF) or a self-description." })
         }
 
+        const selectedPlanType = planType === "roadmap" ? "roadmap" : "interview"
+
         const interViewReportByAi = await generateInterviewReport({
             resume: resumeText,
             selfDescription,
-            jobDescription
+            jobDescription,
+            planType: selectedPlanType
         })
 
         const interviewReport = await interviewReportModel.create({
@@ -40,13 +43,14 @@ async function generateInterViewReportController(req, res) {
             resume: resumeText,
             selfDescription,
             jobDescription,
+            planType: selectedPlanType,
             ...interViewReportByAi,
             // Belt-and-suspenders: ensure title is never missing even if AI drops the field
-            title: interViewReportByAi.title || jobDescription.split('\n')[0].substring(0, 80).trim() || "Interview Report"
+            title: interViewReportByAi.title || jobDescription.split('\n')[0].substring(0, 80).trim() || (selectedPlanType === "roadmap" ? "Career Roadmap" : "Interview Report")
         })
 
         res.status(201).json({
-            message: "Interview report generated successfully.",
+            message: "Report generated successfully.",
             interviewReport
         })
     } catch (err) {
@@ -94,7 +98,7 @@ async function getAllInterviewReportsController(req, res) {
         const interviewReports = await interviewReportModel
             .find({ user: req.user.id })
             .sort({ createdAt: -1 })
-            .select("-resume -selfDescription -jobDescription -__v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan")
+            .select("-resume -selfDescription -jobDescription -__v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan -skillAnalysis -careerRoadmap")
 
         res.status(200).json({
             message: "Interview reports fetched successfully.",

@@ -7,16 +7,16 @@ const api = axios.create({
 
 
 /**
- * @description Service to generate interview report based on user self description, resume and job description.
+ * @description Service to generate interview report or career roadmap based on user self description, resume and job description.
  * NOTE: Do NOT pass a Content-Type header — axios sets it automatically with the correct
- * multipart boundary when a FormData body is used. Setting it manually strips the boundary
- * and breaks multer on the backend.
+ * multipart boundary when a FormData body is used.
  */
-export const generateInterviewReport = async ({ jobDescription, selfDescription, resumeFile }) => {
+export const generateInterviewReport = async ({ jobDescription, selfDescription, resumeFile, planType = "interview" }) => {
 
     const formData = new FormData()
     formData.append("jobDescription", jobDescription)
     formData.append("selfDescription", selfDescription)
+    formData.append("planType", planType)
     if (resumeFile) {
         formData.append("resume", resumeFile)
     }
