@@ -1,27 +1,50 @@
-// ── Variables ────────────────────────────────────────────────────────────────
-$bg-page:        #0d1117;
-$bg-card:        #161b22;
-$bg-panel:       #1c2230;
-$bg-input:       #1e2535;
-$border-color:   #2a3348;
-$text-primary:   #e6edf3;
-$text-muted:     #7d8590;
-$accent:         #ff2d78;
-$accent-alt:     #ff6b9d;
-$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+// ── Cognitive Suite: Noir Theme Variables ──────────────────────────────────────
+$bg-void:                  #000000;
+$obsidian-surface:         #0a0a0a;
+$charcoal-container:       #131313;
+$surface-container-low:    #161616;
+$surface-container-high:   #1f1f1f;
+$surface-container-highest:#2a2a2a;
+
+$border-ghost:             rgba(255, 255, 255, 0.08);
+$border-accent:            rgba(192, 193, 255, 0.25);
+$outline:                  #918f9a;
+$outline-variant:          #46464f;
+
+$electric-indigo:          #c0c1ff;
+$electric-indigo-dim:      rgba(192, 193, 255, 0.12);
+$on-primary:               #131449;
+
+$sky-accent:               #89ceff;
+$sky-accent-dim:           rgba(137, 206, 255, 0.12);
+
+$text-primary:             #e2e2e2;
+$text-secondary:           #dae2fd;
+$text-muted:               #918f9a;
+
+$error-accent:             #ffb4ab;
+$error-dim:                rgba(255, 180, 171, 0.12);
+
+// ── Typography ────────────────────────────────────────────────────────────────
+$font-display:             'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-body:                'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-mono:                'JetBrains Mono', monospace;
 
 // Score colours
-$score-high:     #2ea043;
-$score-mid:      #d29922;
-$score-low:      #f85149;
+$score-high:               #89ceff;
+$score-mid:                #c0c1ff;
+$score-low:                #ffb4ab;
 
 // ── Page Shell ───────────────────────────────────────────────────────────────
 .interview-page {
     width: 100%;
     min-height: 100vh;
-    background-color: $bg-page;
+    background-color: $bg-void;
+    background-image: 
+        radial-gradient(circle at 0% 0%, rgba(192, 193, 255, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(137, 206, 255, 0.03) 0%, transparent 50%);
     color: $text-primary;
-    font-family: $font-stack;
+    font-family: $font-body;
     display: flex;
     align-items: stretch;
 }
@@ -31,19 +54,32 @@ $score-low:      #f85149;
     display: flex;
     width: 100%;
     min-height: 100vh;
+
+    @media (max-width: 1024px) {
+        flex-direction: column;
+    }
 }
 
 // ── Left Nav ─────────────────────────────────────────────────────────────────
 .interview-nav {
-    width: 220px;
+    width: 240px;
     flex-shrink: 0;
-    background-color: $bg-card;
-    border-right: 1px solid $border-color;
+    background-color: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-right: 1px solid $border-ghost;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.5rem 1rem;
-    gap: 1rem;
+    padding: 1.75rem 1.15rem;
+    gap: 1.25rem;
+
+    @media (max-width: 1024px) {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid $border-ghost;
+        padding: 1.25rem 1.5rem;
+    }
 
     .nav-content {
         display: flex;
@@ -51,41 +87,79 @@ $score-low:      #f85149;
         gap: 0.5rem;
     }
 
+    &__home-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        width: 100%;
+        padding: 0.65rem 0.85rem;
+        background-color: rgba(22, 22, 22, 0.8);
+        border: 1px solid $border-ghost;
+        border-radius: 0.75rem;
+        color: $text-secondary;
+        font-size: 0.875rem;
+        font-weight: 500;
+        font-family: $font-body;
+        cursor: pointer;
+        margin-bottom: 0.85rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+        svg {
+            stroke: $sky-accent;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        &:hover {
+            background-color: rgba(137, 206, 255, 0.08);
+            border-color: rgba(137, 206, 255, 0.3);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(137, 206, 255, 0.15);
+
+            svg {
+                transform: translateX(-2px);
+            }
+        }
+    }
+
     &__label {
+        font-family: $font-mono;
         font-size: 0.7rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.08em;
         color: $text-muted;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.35rem;
         padding: 0 0.5rem;
     }
 
     &__item {
         display: flex;
         align-items: center;
-        gap: 0.6rem;
+        gap: 0.65rem;
         width: 100%;
-        padding: 0.6rem 0.75rem;
-        background: none;
-        border: none;
-        border-radius: 0.5rem;
+        padding: 0.7rem 0.85rem;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.75rem;
         color: $text-muted;
         font-size: 0.875rem;
-        font-family: $font-stack;
+        font-family: $font-body;
         cursor: pointer;
         text-align: left;
-        transition: background-color 0.15s, color 0.15s;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover {
-            background-color: rgba($accent, 0.08);
+            background-color: rgba(192, 193, 255, 0.05);
             color: $text-primary;
         }
 
         &--active {
-            background-color: rgba($accent, 0.15);
-            color: $accent;
+            background-color: $electric-indigo-dim;
+            border-color: $border-accent;
+            color: $electric-indigo;
             font-weight: 600;
+            box-shadow: 0 0 16px rgba(192, 193, 255, 0.12);
         }
     }
 
@@ -99,42 +173,55 @@ $score-low:      #f85149;
 // ── Dividers ─────────────────────────────────────────────────────────────────
 .interview-divider {
     width: 1px;
-    background-color: $border-color;
+    background: linear-gradient(180deg, transparent, $border-ghost 20%, $border-ghost 80%, transparent);
     flex-shrink: 0;
+
+    @media (max-width: 1024px) {
+        display: none;
+    }
 }
 
 // ── Center Content ───────────────────────────────────────────────────────────
 .interview-content {
     flex: 1;
-    padding: 2rem 1.75rem;
+    padding: 2.5rem 2.25rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
 
     section {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.25rem;
     }
 }
 
 .content-header {
     display: flex;
     align-items: baseline;
-    gap: 0.75rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid $border-color;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $border-ghost;
 
     h2 {
-        font-size: 1.2rem;
+        font-family: $font-display;
+        font-size: 1.5rem;
         font-weight: 700;
-        color: $text-primary;
+        letter-spacing: -0.01em;
+        color: #ffffff;
     }
 
     &__count {
-        font-size: 0.8rem;
-        color: $text-muted;
+        font-family: $font-mono;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: $sky-accent;
+        background-color: $sky-accent-dim;
+        border: 1px solid rgba(137, 206, 255, 0.25);
+        padding: 0.25rem 0.6rem;
+        border-radius: 0.4rem;
+        letter-spacing: 0.03em;
     }
 }
 
@@ -142,42 +229,48 @@ $score-low:      #f85149;
 .q-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.85rem;
 }
 
 .q-card {
-    background-color: $bg-card;
-    border: 1px solid $border-color;
-    border-radius: 0.6rem;
+    background-color: rgba(14, 14, 14, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid $border-ghost;
+    border-radius: 1rem;
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-        border-color: rgba($accent, 0.4);
+        border-color: rgba(192, 193, 255, 0.25);
+        background-color: rgba(20, 20, 20, 0.95);
+        box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.7);
     }
 
     &__header {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding: 0.9rem 1rem;
+        gap: 1rem;
+        padding: 1.1rem 1.25rem;
         cursor: pointer;
         user-select: none;
     }
 
     &__index {
-        font-size: 0.7rem;
+        font-family: $font-mono;
+        font-size: 0.75rem;
         font-weight: 700;
-        color: $accent;
-        background-color: rgba($accent, 0.12);
-        padding: 0.15rem 0.45rem;
-        border-radius: 0.25rem;
+        color: $electric-indigo;
+        background-color: $electric-indigo-dim;
+        border: 1px solid $border-accent;
+        padding: 0.2rem 0.55rem;
+        border-radius: 0.4rem;
         flex-shrink: 0;
     }
 
     &__question {
         flex: 1;
-        font-size: 0.9rem;
+        font-family: $font-body;
+        font-size: 0.95rem;
         font-weight: 500;
         color: $text-primary;
         margin: 0;
@@ -189,53 +282,57 @@ $score-low:      #f85149;
         align-items: center;
         color: $text-muted;
         flex-shrink: 0;
-        transition: transform 0.2s;
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s;
 
         &--open {
             transform: rotate(180deg);
-            color: $accent;
+            color: $electric-indigo;
         }
     }
 
     &__body {
-        border-top: 1px solid $border-color;
+        border-top: 1px solid $border-ghost;
+        background-color: rgba(10, 10, 10, 0.95);
         display: flex;
         flex-direction: column;
-        gap: 0;
     }
 
     &__section {
-        padding: 0.9rem 1rem;
+        padding: 1.25rem 1.5rem;
 
         &:not(:last-child) {
-            border-bottom: 1px solid $border-color;
+            border-bottom: 1px solid $border-ghost;
         }
 
         p {
-            font-size: 0.85rem;
-            color: $text-muted;
-            line-height: 1.6;
-            margin: 0.35rem 0 0;
+            font-family: $font-body;
+            font-size: 0.9rem;
+            color: $text-secondary;
+            line-height: 1.65;
+            margin: 0.5rem 0 0;
         }
     }
 
     &__tag {
         display: inline-block;
-        font-size: 0.68rem;
-        font-weight: 700;
+        font-family: $font-mono;
+        font-size: 0.7rem;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        padding: 0.1rem 0.45rem;
-        border-radius: 0.25rem;
+        padding: 0.18rem 0.55rem;
+        border-radius: 0.35rem;
 
         &--intention {
-            background-color: rgba(#58a6ff, 0.12);
-            color: #58a6ff;
+            background-color: $sky-accent-dim;
+            color: $sky-accent;
+            border: 1px solid rgba(137, 206, 255, 0.25);
         }
 
         &--answer {
-            background-color: rgba($score-high, 0.12);
-            color: $score-high;
+            background-color: $electric-indigo-dim;
+            color: $electric-indigo;
+            border: 1px solid $border-accent;
         }
     }
 }
@@ -244,36 +341,45 @@ $score-low:      #f85149;
 .roadmap-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
 .roadmap-day {
-    background-color: $bg-card;
-    border: 1px solid $border-color;
-    border-radius: 0.6rem;
-    padding: 1rem 1.25rem;
+    background-color: rgba(14, 14, 14, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid $border-ghost;
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+
+    &:hover {
+        border-color: rgba(192, 193, 255, 0.2);
+    }
 
     &__header {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 0.75rem;
+        gap: 0.85rem;
+        margin-bottom: 1rem;
     }
 
     &__badge {
-        font-size: 0.7rem;
+        font-family: $font-mono;
+        font-size: 0.72rem;
         font-weight: 700;
-        color: $accent;
-        background-color: rgba($accent, 0.12);
-        padding: 0.2rem 0.5rem;
-        border-radius: 0.25rem;
+        color: $electric-indigo;
+        background-color: $electric-indigo-dim;
+        border: 1px solid $border-accent;
+        padding: 0.25rem 0.6rem;
+        border-radius: 0.4rem;
         white-space: nowrap;
     }
 
     &__focus {
-        font-size: 0.95rem;
+        font-family: $font-display;
+        font-size: 1.05rem;
         font-weight: 600;
-        color: $text-primary;
+        color: #ffffff;
         margin: 0;
     }
 
@@ -281,17 +387,18 @@ $score-low:      #f85149;
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.65rem;
         padding: 0;
         margin: 0;
 
         li {
             display: flex;
             align-items: flex-start;
-            gap: 0.6rem;
-            font-size: 0.85rem;
-            color: $text-muted;
-            line-height: 1.5;
+            gap: 0.75rem;
+            font-family: $font-body;
+            font-size: 0.88rem;
+            color: $text-secondary;
+            line-height: 1.55;
         }
     }
 
@@ -299,7 +406,8 @@ $score-low:      #f85149;
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background-color: $accent;
+        background-color: $electric-indigo;
+        box-shadow: 0 0 8px rgba(192, 193, 255, 0.6);
         flex-shrink: 0;
         margin-top: 0.45rem;
     }
@@ -307,19 +415,27 @@ $score-low:      #f85149;
 
 // ── Right Sidebar ─────────────────────────────────────────────────────────────
 .interview-sidebar {
-    width: 200px;
+    width: 250px;
     flex-shrink: 0;
-    background-color: $bg-card;
-    border-left: 1px solid $border-color;
-    padding: 1.75rem 1.25rem;
+    background-color: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-left: 1px solid $border-ghost;
+    padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.75rem;
+
+    @media (max-width: 1024px) {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid $border-ghost;
+    }
 }
 
 .sidebar-divider {
     height: 1px;
-    background-color: $border-color;
+    background: linear-gradient(90deg, transparent, $border-ghost 20%, $border-ghost 80%, transparent);
 }
 
 // ── Match Score Ring ──────────────────────────────────────────────────────────
@@ -327,49 +443,62 @@ $score-low:      #f85149;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.75rem;
     text-align: center;
 
     &__label {
+        font-family: $font-mono;
         font-size: 0.75rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.08em;
         color: $text-muted;
     }
 
     &__ring {
-        width: 90px;
-        height: 90px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
-        border: 5px solid $border-color;
+        border: 4px solid $surface-container-highest;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 0;
+        background: rgba(19, 19, 19, 0.7);
 
-        &.score--high { border-color: $score-high; }
-        &.score--mid  { border-color: $score-mid; }
-        &.score--low  { border-color: $score-low; }
+        &.score--high { 
+            border-color: $score-high; 
+            box-shadow: 0 0 20px rgba(137, 206, 255, 0.25);
+        }
+        &.score--mid  { 
+            border-color: $score-mid; 
+            box-shadow: 0 0 20px rgba(192, 193, 255, 0.25);
+        }
+        &.score--low  { 
+            border-color: $score-low; 
+            box-shadow: 0 0 20px rgba(255, 180, 171, 0.25);
+        }
     }
 
     &__value {
-        font-size: 1.6rem;
+        font-family: $font-display;
+        font-size: 1.85rem;
         font-weight: 800;
         line-height: 1;
-        color: $text-primary;
+        color: #ffffff;
     }
 
     &__pct {
+        font-family: $font-mono;
         font-size: 0.75rem;
         color: $text-muted;
     }
 
     &__sub {
-        font-size: 0.72rem;
+        font-family: $font-body;
+        font-size: 0.78rem;
         color: $text-muted;
-        line-height: 1.4;
+        line-height: 1.45;
         text-align: center;
     }
 }
@@ -378,67 +507,82 @@ $score-low:      #f85149;
 .skill-gaps {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.75rem;
 
     &__label {
+        font-family: $font-mono;
         font-size: 0.75rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.08em;
         color: $text-muted;
     }
 
     &__list {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem;
+        gap: 0.45rem;
     }
 }
 
 .skill-tag {
+    font-family: $font-mono;
     font-size: 0.72rem;
     font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.3rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.4rem;
+    letter-spacing: 0.02em;
 
     &--high {
-        background-color: rgba($score-low, 0.12);
-        color: $score-low;
-        border: 1px solid rgba($score-low, 0.3);
+        background-color: $error-dim;
+        color: $error-accent;
+        border: 1px solid rgba(255, 180, 171, 0.3);
     }
 
     &--medium {
-        background-color: rgba($score-mid, 0.12);
-        color: $score-mid;
-        border: 1px solid rgba($score-mid, 0.3);
+        background-color: $electric-indigo-dim;
+        color: $electric-indigo;
+        border: 1px solid $border-accent;
     }
 
     &--low {
-        background-color: rgba($score-high, 0.12);
-        color: $score-high;
-        border: 1px solid rgba($score-high, 0.3);
+        background-color: $sky-accent-dim;
+        color: $sky-accent;
+        border: 1px solid rgba(137, 206, 255, 0.3);
     }
 }
 
 // ── Primary Button (shared) ───────────────────────────────────────────────────
 .primary-button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.65rem 1rem;
-    background-color: $accent;
-    color: #fff;
-    font-size: 0.8rem;
+    padding: 0.75rem 1.25rem;
+    background-color: $electric-indigo;
+    color: $on-primary;
+    font-size: 0.85rem;
     font-weight: 600;
+    font-family: $font-body;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     cursor: pointer;
-    font-family: $font-stack;
-    transition: opacity 0.2s, transform 0.1s;
+    box-shadow: 0 0 18px rgba(192, 193, 255, 0.25);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
 
-    &:hover  { opacity: 0.88; }
-    &:active { transform: scale(0.97); }
+    svg {
+        fill: $on-primary;
+    }
+
+    &:hover {
+        background-color: #d8d7ff;
+        box-shadow: 0 0 25px rgba(192, 193, 255, 0.45);
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
 }
 
 // ── Loading Screen ────────────────────────────────────────────────────────────
@@ -448,18 +592,14 @@ $score-low:      #f85149;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $bg-page;
-    color: $text-muted;
-    font-family: $font-stack;
+    background-color: $bg-void;
+    color: $electric-indigo;
+    font-family: $font-display;
 
     h1 {
-        font-size: 1.1rem;
+        font-size: 1.25rem;
         font-weight: 500;
-        animation: pulse 1.5s ease-in-out infinite;
+        letter-spacing: -0.01em;
+        animation: pulse-noir 1.8s ease-in-out infinite;
     }
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.4; }
 }
