@@ -105,11 +105,17 @@ const Home = () => {
 
             {/* Page Header */}
             <header className='page-header'>
-                <h1>AI Strategy &amp; <span className='highlight'>{planType === 'roadmap' ? 'Career Roadmap' : 'Interview Plan'}</span></h1>
+                <h1>
+                    {planType === 'roadmap' ? (
+                        <>Career <span className='highlight'>Roadmap</span></>
+                    ) : (
+                        <>Interview <span className='highlight'>Plan</span></>
+                    )}
+                </h1>
                 <p>
                     {planType === 'roadmap'
-                        ? 'Perform a detailed skill gap audit, competency matrix analysis, and multi-week transition roadmap with recommended portfolio projects.'
-                        : 'Analyze role requirements against your profile to generate targeted questions, model responses, and a 7-day sprint plan.'}
+                        ? 'Skill gap analysis and personalized preparation roadmap.'
+                        : 'Targeted interview questions, model answers, and preparation plan.'}
                 </p>
             </header>
 
