@@ -264,7 +264,7 @@ ${selfDescription || "(No summary provided)"}
 
 Please produce:
 1. title: Target role title.
-2. matchScore: Overall alignment score (0-100).
+2. matchScore: Overall alignment score (0-100) , 0 if he have no knowledge.
 3. skillAnalysis: Deep-dive matrix analyzing 7-10 core competencies (currentLevel vs targetLevel, specific gap description, importance).
 4. careerRoadmap: 4-5 structured phases with clear durations (e.g. Weeks 1-3, Weeks 4-6), objectives, topics to master, and a concrete resume-worthy hands-on project with techStack for each phase.
 5. skillGaps: High-level overview of missing skills and severities.
@@ -308,7 +308,7 @@ ${selfDescription || "(No self-description provided)"}
 
 Generate the report with:
 - title: the job title/role being applied for
-- matchScore: how well the candidate matches (0-100)
+- matchScore: how well the candidate matches (0-100), 0 if he have no knowledge,
 - 6-8 technical questions with intentions and model answers
 - 6-8 behavioral questions with intentions and model answers
 - in detail skill gaps the candidate needs to address
