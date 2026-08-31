@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const technicalQuestionSchema = new mongoose.Schema({
     question: {
         type: String,
@@ -16,7 +15,7 @@ const technicalQuestionSchema = new mongoose.Schema({
     }
 }, {
     _id: false
-})
+});
 
 const behavioralQuestionSchema = new mongoose.Schema({
     question: {
@@ -33,7 +32,7 @@ const behavioralQuestionSchema = new mongoose.Schema({
     }
 }, {
     _id: false
-})
+});
 
 const skillGapSchema = new mongoose.Schema({
     skill: {
@@ -47,7 +46,7 @@ const skillGapSchema = new mongoose.Schema({
     }
 }, {
     _id: false
-})
+});
 
 const preparationPlanSchema = new mongoose.Schema({
     day: {
@@ -64,7 +63,7 @@ const preparationPlanSchema = new mongoose.Schema({
     } ]
 }, {
     _id: false
-})
+});
 
 const skillAnalysisSchema = new mongoose.Schema({
     skill: {
@@ -90,7 +89,7 @@ const skillAnalysisSchema = new mongoose.Schema({
     }
 }, {
     _id: false
-})
+});
 
 const projectToBuildSchema = new mongoose.Schema({
     title: {
@@ -106,7 +105,32 @@ const projectToBuildSchema = new mongoose.Schema({
     } ]
 }, {
     _id: false
-})
+});
+
+const learningResourceSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String, // "Documentation", "Course", "Book", "Video", "Practice", "Article", "Tool"
+        default: "Documentation"
+    },
+    platform: {
+        type: String,
+        default: ""
+    },
+    url: {
+        type: String,
+        default: ""
+    },
+    description: {
+        type: String,
+        default: ""
+    }
+}, {
+    _id: false
+});
 
 const careerRoadmapPhaseSchema = new mongoose.Schema({
     phase: {
@@ -124,10 +148,36 @@ const careerRoadmapPhaseSchema = new mongoose.Schema({
     topics: [ {
         type: String
     } ],
-    projectToBuild: projectToBuildSchema
+    projectToBuild: projectToBuildSchema,
+    resources: [ learningResourceSchema ] // Phase-specific curated resources
 }, {
     _id: false
-})
+});
+
+const categorizedResourceSchema = new mongoose.Schema({
+    category: {
+        type: String, // "Websites & Documentation", "YouTube & Video Channels", "Recommended Books", "Interactive Practice & Platforms"
+        required: true
+    },
+    title: {
+        type: String,
+        required: true
+    },
+    platform: {
+        type: String,
+        default: ""
+    },
+    url: {
+        type: String,
+        default: ""
+    },
+    description: {
+        type: String,
+        default: ""
+    }
+}, {
+    _id: false
+});
 
 const interviewReportSchema = new mongoose.Schema({
     jobDescription: {
@@ -156,6 +206,7 @@ const interviewReportSchema = new mongoose.Schema({
     preparationPlan: [ preparationPlanSchema ],
     skillAnalysis: [ skillAnalysisSchema ],
     careerRoadmap: [ careerRoadmapPhaseSchema ],
+    resources: [ categorizedResourceSchema ],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Users"
@@ -166,8 +217,7 @@ const interviewReportSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true
-})
-
+});
 
 const interviewReportModel = mongoose.model("InterviewReport", interviewReportSchema);
 

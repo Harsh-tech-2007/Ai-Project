@@ -49,6 +49,44 @@ const RoadMapDay = ({ day }) => (
     </div>
 )
 
+// Resource Item Card (Reusable for both phase-level and top-level resources)
+const ResourceCard = ({ resource }) => {
+    // Normalizing properties from both schema formats
+    const title = resource.title || resource.name || "Learning Resource"
+    const type = resource.type || resource.category || "Documentation"
+    const platform = resource.platform || ""
+    const description = resource.description || ""
+    const url = resource.url || (typeof resource === 'string' ? resource : "")
+
+    return (
+        <div className='resource-card'>
+            <div className='resource-card__header'>
+                <div className='resource-card__badges'>
+                    <span className={`resource-badge resource-badge--${type.toLowerCase().replace(/[^a-z0-9]/g, '')}`}>
+                        {type}
+                    </span>
+                    {platform && <span className='platform-tag'>{platform}</span>}
+                </div>
+                {url && (
+                    <a
+                        href={url.startsWith('http') ? url : `https://${url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className='resource-link-btn'
+                        title={`Open ${title}`}
+                    >
+                        <span>Visit</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                )}
+            </div>
+
+            <h4 className='resource-card__title'>{title}</h4>
+            {description && <p className='resource-card__desc'>{description}</p>}
+        </div>
+    )
+}
+
 // Career Phase Card for deep multi-week roadmaps
 const CareerPhaseCard = ({ phase, index }) => (
     <div className='career-phase-card'>
@@ -84,6 +122,21 @@ const CareerPhaseCard = ({ phase, index }) => (
                         ))}
                     </div>
                 )}
+            </div>
+        )}
+
+        {/* Phase-Specific Curated Learning Resources */}
+        {phase.resources?.length > 0 && (
+            <div className='career-phase-card__resources'>
+                <div className='resources-header'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+                    <h4>Phase Learning Resources</h4>
+                </div>
+                <div className='phase-resources-grid'>
+                    {phase.resources.map((res, rIdx) => (
+                        <ResourceCard key={rIdx} resource={res} />
+                    ))}
+                </div>
             </div>
         )}
     </div>
@@ -156,13 +209,18 @@ const Interview = () => {
     const navItems = isRoadmapMode ? [
         { id: 'roadmap', label: 'Career Roadmap', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/><polyline points="13 21 11 13 3 11"/></svg>) },
         { id: 'skills', label: 'Skill Gap Matrix', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>) },
+        { id: 'resources', label: 'Learning Resources', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>) },
         { id: 'technical', label: 'Technical Q&A', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>) },
         { id: 'behavioral', label: 'Behavioral Q&A', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>) },
     ] : [
         { id: 'technical', label: 'Technical Questions', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>) },
         { id: 'behavioral', label: 'Behavioral Questions', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>) },
         { id: 'roadmap', label: 'Preparation Roadmap', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>) },
+        { id: 'resources', label: 'Learning Resources', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>) },
     ]
+
+    // Group top-level resources by category or array
+    const hasTopLevelResources = report.resources?.length > 0
 
     return (
         <div className='interview-page'>
@@ -249,6 +307,28 @@ const Interview = () => {
                                     <SkillMatrixItem key={i} item={item} />
                                 ))}
                             </div>
+                        </section>
+                    )}
+
+                    {/* Curated Resources Tab */}
+                    {activeNav === 'resources' && (
+                        <section>
+                            <div className='content-header'>
+                                <h2>Learning Resources</h2>
+                                <span className='content-header__count'>{report.resources?.length || 0} References</span>
+                            </div>
+
+                            {hasTopLevelResources ? (
+                                <div className='resources-grid'>
+                                    {report.resources.map((res, i) => (
+                                        <ResourceCard key={i} resource={res} />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className='empty-resources-banner'>
+                                    <p>Phase-specific learning resources are embedded inside each phase of the <strong>Career Roadmap</strong> tab.</p>
+                                </div>
+                            )}
                         </section>
                     )}
 

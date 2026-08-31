@@ -257,7 +257,7 @@ $score-low:                #ffb4ab;
 .career-phases-list {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
 .career-phase-card {
@@ -268,7 +268,7 @@ $score-low:                #ffb4ab;
     padding: 1.75rem;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.35rem;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
@@ -413,6 +413,203 @@ $score-low:                #ffb4ab;
                 padding: 0.15rem 0.55rem;
                 border-radius: 0.35rem;
             }
+        }
+    }
+
+    &__resources {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .resources-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: $sky-accent;
+
+            svg {
+                stroke: $sky-accent;
+            }
+
+            h4 {
+                font-family: $font-mono;
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: $text-muted;
+                margin: 0;
+            }
+        }
+
+        .phase-resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
+        }
+    }
+}
+
+// ── Resource Cards (Shared across phase & top-level view) ────────────────────
+.resource-card {
+    background-color: rgba(20, 20, 26, 0.85);
+    border: 1px solid $border-ghost;
+    border-radius: 0.85rem;
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        border-color: rgba(137, 206, 255, 0.35);
+        background-color: rgba(26, 26, 36, 0.95);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7);
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    &__badges {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+    }
+
+    .resource-badge {
+        font-family: $font-mono;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.18rem 0.5rem;
+        border-radius: 0.35rem;
+
+        // Dynamic badge color mappings
+        &--documentation,
+        &--websitesdocumentation {
+            background-color: $sky-accent-dim;
+            color: $sky-accent;
+            border: 1px solid rgba(137, 206, 255, 0.3);
+        }
+
+        &--course,
+        &--video,
+        &--youtube,
+        &--youtubevideochannels {
+            background-color: $electric-indigo-dim;
+            color: $electric-indigo;
+            border: 1px solid $border-accent;
+        }
+
+        &--book,
+        &--recommendedbooks {
+            background-color: rgba(74, 222, 128, 0.12);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        &--practice,
+        &--tool,
+        &--article,
+        &--interactivepracticeplatforms {
+            background-color: rgba(251, 191, 36, 0.12);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+    }
+
+    .platform-tag {
+        font-family: $font-mono;
+        font-size: 0.68rem;
+        color: $text-muted;
+        background-color: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 0.15rem 0.45rem;
+        border-radius: 0.35rem;
+    }
+
+    .resource-link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-family: $font-display;
+        font-size: 0.76rem;
+        font-weight: 600;
+        color: $sky-accent;
+        text-decoration: none;
+        padding: 0.22rem 0.55rem;
+        border-radius: 0.4rem;
+        background-color: rgba(137, 206, 255, 0.08);
+        border: 1px solid rgba(137, 206, 255, 0.25);
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+
+        svg {
+            stroke: $sky-accent;
+            transition: transform 0.2s;
+        }
+
+        &:hover {
+            background-color: $sky-accent;
+            color: #002238;
+            border-color: $sky-accent;
+            box-shadow: 0 0 10px rgba(137, 206, 255, 0.4);
+
+            svg {
+                stroke: #002238;
+                transform: translate(1px, -1px);
+            }
+        }
+    }
+
+    &__title {
+        font-family: $font-display;
+        font-size: 1.02rem;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -0.01em;
+        margin: 0;
+    }
+
+    &__desc {
+        font-family: $font-body;
+        font-size: 0.86rem;
+        color: $text-secondary;
+        line-height: 1.55;
+        margin: 0;
+    }
+}
+
+// ── Curated Resources Tab Grid ────────────────────────────────────────────────
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+}
+
+.empty-resources-banner {
+    padding: 2.5rem 2rem;
+    background-color: rgba(14, 14, 14, 0.85);
+    border: 1px dashed $border-ghost;
+    border-radius: 1rem;
+    text-align: center;
+    color: $text-muted;
+
+    p {
+        font-family: $font-body;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        margin: 0;
+
+        strong {
+            color: $sky-accent;
         }
     }
 }

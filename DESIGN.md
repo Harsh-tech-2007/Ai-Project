@@ -222,7 +222,23 @@ sequenceDiagram
       title: String,
       description: String,
       techStack: [String]
-    }
+    },
+    resources: [{
+      title: String,
+      type: String,         // "Documentation", "Course", "Book", "Practice", "Video"
+      platform: String,     // e.g., "MDN", "Coursera", "YouTube", "LeetCode"
+      url: String,
+      description: String
+    }]
+  }],
+
+  // Curated Learning Resources
+  resources: [{
+    category: String,       // "Websites & Documentation", "YouTube & Video Channels", etc.
+    title: String,
+    platform: String,
+    url: String,
+    description: String
   }],
 
   // Interview Mode Specifics
